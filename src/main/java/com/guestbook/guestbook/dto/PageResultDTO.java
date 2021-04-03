@@ -32,7 +32,7 @@ public class PageResultDTO<DTO, EN>{
 
     private void makePageList(Pageable pageable) {
 
-        this.page = pageable.getPageNumber();
+        this.page = pageable.getPageNumber() + 1; // 0 부터 시작하므로 1 추가
         this.size = pageable.getPageSize();
 
         int tmpEnd = (int) (Math.ceil(page / 10.0)) * 10;
