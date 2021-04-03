@@ -5,9 +5,12 @@ import com.guestbook.guestbook.dto.PageRequestDTO;
 import com.guestbook.guestbook.dto.PageResultDTO;
 import com.guestbook.guestbook.entity.Guestbook;
 import com.guestbook.guestbook.repository.GuestbookRepository;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import java.util.stream.IntStream;
 
@@ -19,6 +22,7 @@ public class GuestbookServiceTests {
 
     @Autowired
     private GuestbookRepository guestbookRepository;
+
 
     @Test
     public void testRegister() {
@@ -51,13 +55,33 @@ public class GuestbookServiceTests {
 
         System.out.println("prev : " + resultDTO.isPrev());
         System.out.println("next : " + resultDTO.isNext());
-        System.out.println("size : " + resultDTO.getTotalPage());
+        System.out.println("total : " + resultDTO.getTotalPage());
 
 
         System.out.println("####testList");
         for(GuestbookDTO guestbookDTO: resultDTO.getDtoList()) {
             System.out.println(guestbookDTO);
         }
+    }
+
+    @Test
+    public void testSearch() {
+
+
+        PageRequestDTO requestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .type("wc")
+                .keyword("tony")
+                .build();
+
+        PageResultDTO<GuestbookDTO, Guestbook> resultDTO = guestbookService.getList(requestDTO);
+
+        System.out.println("prev : " + resultDTO.isPrev());
+        System.out.println("next : " + resultDTO.isNext());
+        System.out.println("total : " + resultDTO.getTotalPage());
+        System.out.println("dto : " + resultDTO.getDtoList().size());
+
     }
 
 
