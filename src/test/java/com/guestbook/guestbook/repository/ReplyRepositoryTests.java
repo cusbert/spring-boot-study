@@ -38,7 +38,7 @@ public class ReplyRepositoryTests {
     @Test
     public void testReadReply() {
 
-        Optional<Reply> result = replyRepository.findById(1L);
+        Optional<Reply> result = replyRepository.findById(2L);
 
         Reply reply = result.get();
         System.out.println(reply.toString());

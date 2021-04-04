@@ -9,7 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@ToString(exclude = "writer")
 public class Board extends BaseEntity{
 
     @Id
@@ -18,6 +18,6 @@ public class Board extends BaseEntity{
     private String title;
     private String content;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY) // Lazy loading 지정,
     private Member writer;
 }

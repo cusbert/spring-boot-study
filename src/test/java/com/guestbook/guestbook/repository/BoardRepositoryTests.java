@@ -5,6 +5,7 @@ import com.guestbook.guestbook.entity.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -40,6 +41,18 @@ public class BoardRepositoryTests {
 
         Board board = result.get();
         System.out.println(board.toString());
+
+    }
+
+    @Transactional
+    @Test
+    public void testReadBoardForLazyLoading() {
+
+        Optional<Board> result = boardRepository.findById(10L);
+
+        Board board = result.get();
+        System.out.println(board.toString());
+        System.out.println(board.getWriter());
 
     }
 }
