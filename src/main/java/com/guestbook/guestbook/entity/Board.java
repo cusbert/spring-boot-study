@@ -20,4 +20,12 @@ public class Board extends BaseEntity{
 
     @ManyToOne (fetch = FetchType.LAZY) // Lazy loading 지정,
     private Member writer;
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

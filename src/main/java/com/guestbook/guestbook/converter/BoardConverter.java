@@ -36,4 +36,14 @@ public class BoardConverter {
                 .replyCount(replyCount.intValue())
                 .build();
     }
+
+    public BoardDTO entityToDTO(Board board) {
+        return BoardDTO.builder()
+                .bno(board.getBno())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .regDate(board.getRegDate())
+                .modDate(board.getModDate())
+                .build();
+    }
 }

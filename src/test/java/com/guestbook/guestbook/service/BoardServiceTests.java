@@ -38,8 +38,27 @@ public class BoardServiceTests {
 
     @Test
     public void testGet() {
-       Long bno = 2L;
+       Long bno = 3L;
        BoardDTO dto = boardService.get(bno);
        System.out.println(dto);
+    }
+
+    @Test
+    public void testDelete() {
+        Long bno = 2L;
+        boardService.removeWithReplies(bno);
+    }
+
+    @Test
+    public void testModify() {
+        BoardDTO dto = BoardDTO.builder()
+                .bno(3L)
+                .title("modify title ..")
+                .content("modify content..")
+                .build();
+
+        boardService.modify(dto);
+
+        System.out.println(dto);
     }
 }
