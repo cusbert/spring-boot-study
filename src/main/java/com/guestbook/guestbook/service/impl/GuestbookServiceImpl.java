@@ -1,4 +1,4 @@
-package com.guestbook.guestbook.service;
+package com.guestbook.guestbook.service.impl;
 
 import com.guestbook.guestbook.common.GuestbookNotFoundException;
 import com.guestbook.guestbook.dto.GuestbookDTO;
@@ -7,6 +7,7 @@ import com.guestbook.guestbook.dto.PageResultDTO;
 import com.guestbook.guestbook.entity.Guestbook;
 import com.guestbook.guestbook.entity.QGuestbook;
 import com.guestbook.guestbook.repository.GuestbookRepository;
+import com.guestbook.guestbook.service.GuestbookService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
