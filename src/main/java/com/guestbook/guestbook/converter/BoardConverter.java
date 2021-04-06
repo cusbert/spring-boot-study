@@ -38,12 +38,18 @@ public class BoardConverter {
     }
 
     public BoardDTO entityToDTO(Board board) {
+
+        Member member = Member.builder()
+                .id(board.getWriter().getId())
+                .build();
+
         return BoardDTO.builder()
                 .bno(board.getBno())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .regDate(board.getRegDate())
                 .modDate(board.getModDate())
+                .writerId(member.getId())
                 .build();
     }
 }

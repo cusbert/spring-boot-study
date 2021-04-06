@@ -6,8 +6,7 @@ import com.guestbook.guestbook.dto.PageResultDTO;
 import com.guestbook.guestbook.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Log4j2
@@ -21,5 +20,27 @@ public class BoardController {
         PageResultDTO<BoardDTO, Object[]> result = service.getList(pageRequestDTO);
         return result;
     }
+
+    @PostMapping("/board")
+    public BoardDTO register(@RequestBody BoardDTO dto) {
+        return service.register(dto);
+    }
+
+    @GetMapping("/board/{bno}")
+    public BoardDTO get(@PathVariable(name = "bno") Long bno) {
+        return service.get(bno);
+    }
+
+    @PutMapping("/board/{bno}")
+    public void get(@PathVariable(name = "bno") Long bno,
+                        @RequestBody BoardDTO dto) {
+        service.modify(dto);
+    }
+
+    @DeleteMapping("/board/{bno}")
+    public void delete(@PathVariable(name = "bno") Long bno) {
+        service.removeWithReplies(bno);
+    }
+
 
 }

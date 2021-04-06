@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
         log.info(dto.toString());
         Board board = converter.dtoToEntity(dto);
         repository.save(board);
-        return dto;
+        return converter.entityToDTO(board);
     }
 
     @Override
