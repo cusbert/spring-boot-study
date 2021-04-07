@@ -97,4 +97,11 @@ public class BoardRepositoryTests {
         Object[] arr = (Object[]) result;
         System.out.println(Arrays.toString(arr));
     }
+
+    @Test
+    public void testSearch() {
+        Board board = boardRepository.search1();
+        System.out.println("===");
+        System.out.println(board);
+    }
 }
