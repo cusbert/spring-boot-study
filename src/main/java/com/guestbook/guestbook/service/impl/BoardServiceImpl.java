@@ -41,10 +41,11 @@ public class BoardServiceImpl implements BoardService {
 
         log.info(pageRequestDTO);
 
-        Function<Object[], BoardDTO> fn = (en
-                -> converter.entityToDTO((Board) en[0], (Member) en[1], (Long) en[2]));
+        Function<Object[], BoardDTO> fn = (en -> {
+            return converter.entityToDTO((Board) en[0], (Member) en[1], (Long) en[2]);
+        });
 
-      /*  Page<Object[]> result = repository.getBoardWithReplyCount(
+        /* Page<Object[]> result = repository.getBoardWithReplyCount(
                 pageRequestDTO.getPageable(Sort.by("modDate").descending())
         );*/
 
