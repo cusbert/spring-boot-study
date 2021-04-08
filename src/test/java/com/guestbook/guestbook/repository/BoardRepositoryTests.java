@@ -27,10 +27,10 @@ public class BoardRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
             Member member = Member.builder()
-                    .id("userID"+i)
+                    .id("userID" + i)
                     .build();
 
-            Board board  = Board.builder()
+            Board board = Board.builder()
                     .title("bigbang theory season" + i)
                     .content("This is cool" + i)
                     .writer(member)
@@ -74,7 +74,7 @@ public class BoardRepositoryTests {
 
         List<Object[]> result = boardRepository.getBoardWithReply(2L);
 
-        for (Object[] arr: result) {
+        for (Object[] arr : result) {
             System.out.println(Arrays.toString(arr));
         }
     }
@@ -99,9 +99,17 @@ public class BoardRepositoryTests {
     }
 
     @Test
-    public void testSearch() {
-        Board board = boardRepository.search1();
+    public void testSearchOne() {
+        Board board = boardRepository.searchOne();
         System.out.println("===");
         System.out.println(board);
+    }
+
+    @Test
+    public void testSearchPage() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("modDate").descending()
+                .and(Sort.by("title").ascending()));
+        Page<Object[]> result = boardRepository.searchPage("t", "big", pageable);
+
     }
 }
