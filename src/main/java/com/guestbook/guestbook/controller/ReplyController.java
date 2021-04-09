@@ -28,5 +28,20 @@ public class ReplyController {
         return new ResponseEntity<>(replyService.register(replyDTO), HttpStatus.OK);
     }
 
+    @DeleteMapping("/board/{bno}/replies/{rno}")
+    public ResponseEntity<String> remove(@PathVariable("bno") Long bno,
+                                         @PathVariable("rno") Long rno) {
+        replyService.remove(rno);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PutMapping("/board/{bno}/replies/{rno}")
+    public ResponseEntity<String> modify(@PathVariable("bno") Long bno,
+                                         @PathVariable("rno") Long rno,
+                                         @RequestBody ReplyDTO replyDTO) {
+        replyService.modify(replyDTO);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 
 }

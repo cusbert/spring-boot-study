@@ -9,4 +9,8 @@ public interface ReplyService {
     Long register(ReplyDTO replyDTO);
 
     List<ReplyDTO> getList(Long bno);
+
+    void remove(Long rno);
+
+    void modify(ReplyDTO replyDTO);
 }

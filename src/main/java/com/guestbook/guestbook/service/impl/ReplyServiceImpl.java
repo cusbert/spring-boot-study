@@ -34,4 +34,15 @@ public class ReplyServiceImpl implements ReplyService {
         List<Reply> result = replyRepository.getRepliesByBoardOrderByRno(Board.builder().bno(bno).build());
         return result.stream().map(reply -> replyConverter.entityToDTO(reply)).collect(Collectors.toList());
     }
+
+    @Override
+    public void remove(Long rno) {
+        replyRepository.deleteById(rno);
+    }
+
+    @Override
+    public void modify(ReplyDTO replyDTO) {
+        Reply reply = replyConverter.dtoToEntity(replyDTO);
+        replyRepository.save(reply);
+    }
 }

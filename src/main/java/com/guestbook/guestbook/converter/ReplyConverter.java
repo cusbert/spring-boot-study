@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReplyConverter {
 
-    public static Reply dtoToEntity(ReplyDTO replyDTO) {
+    public Reply dtoToEntity(ReplyDTO replyDTO) {
 
         Board board = Board.builder().bno(replyDTO.getBno()).build();
 
@@ -20,7 +20,7 @@ public class ReplyConverter {
                 .build();
     }
 
-    public static ReplyDTO entityToDTO(Reply reply) {
+    public ReplyDTO entityToDTO(Reply reply) {
         return ReplyDTO.builder()
                 .rno(reply.getRno())
                 .text(reply.getText())
