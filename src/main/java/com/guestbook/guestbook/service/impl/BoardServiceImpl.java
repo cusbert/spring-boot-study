@@ -45,10 +45,6 @@ public class BoardServiceImpl implements BoardService {
             return converter.entityToDTO((Board) en[0], (Member) en[1], (Long) en[2]);
         });
 
-        /* Page<Object[]> result = repository.getBoardWithReplyCount(
-                pageRequestDTO.getPageable(Sort.by("modDate").descending())
-        );*/
-
         Page<Object[]> result = repository.searchPage(
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
@@ -56,6 +52,16 @@ public class BoardServiceImpl implements BoardService {
         );
 
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public Page<Object[]> getList2(PageRequestDTO pageRequestDTO) {
+        log.info(pageRequestDTO);
+        Page<Object[]> result = repository.getBoardWithReplyCount(
+                pageRequestDTO.getPageable(Sort.by("modDate").descending())
+        );
+
+        return result;
     }
 
     @Override

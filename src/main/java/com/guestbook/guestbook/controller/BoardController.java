@@ -6,6 +6,7 @@ import com.guestbook.guestbook.dto.PageResultDTO;
 import com.guestbook.guestbook.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,12 @@ public class BoardController {
     @GetMapping("/board")
     public PageResultDTO<BoardDTO, Object[]> list(PageRequestDTO pageRequestDTO) {
         PageResultDTO<BoardDTO, Object[]> result = service.getList(pageRequestDTO);
+        return result;
+    }
+
+    @GetMapping("/board2")
+    public  Page<Object[]> list2(PageRequestDTO pageRequestDTO) {
+        Page<Object[]> result = service.getList2(pageRequestDTO);
         return result;
     }
 

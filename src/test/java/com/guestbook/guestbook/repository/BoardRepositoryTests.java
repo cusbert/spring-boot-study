@@ -27,7 +27,7 @@ public class BoardRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
             Member member = Member.builder()
-                    .id("userID" + i)
+                    .id("userID" + (i%11))
                     .build();
 
             Board board = Board.builder()

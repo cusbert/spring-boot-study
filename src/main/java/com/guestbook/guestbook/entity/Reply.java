@@ -18,7 +18,7 @@ public class Reply extends BaseEntity{
     private String text;
     private String replyer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // 지연로딩 설정 -> 가급적 지연로딩을 써서 조인을 줄이자
     private Board board;
 
 }
