@@ -10,13 +10,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-@Table(name = "tbl_member")
-public class Member extends BaseEntity{
+public class Movie extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private String email;
-    private String password;
-    private String name;
+    private Long mno;
+
+    private String title;
+
 }
