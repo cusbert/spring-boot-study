@@ -5,9 +5,14 @@ import com.guestbook.guestbook.entity.MovieImage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -23,7 +28,7 @@ public class MovieRepositoryTests {
     @Commit
     @Transactional
     @Test
-    public void insertMovies() {
+    public void testInsertMovies() {
 
         IntStream.rangeClosed(1, 20).forEach(i -> {
             Movie movie = Movie.builder()
@@ -46,5 +51,16 @@ public class MovieRepositoryTests {
 
             System.out.println("==========end");
         });
+    }
+
+    @Test
+    public void testListPage() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "mno"));
+        Page<Object[]> result = movieRepository.getListPage(pageable);
+
+        for (Object[] objects : result.getContent()) {
+            System.out.println(Arrays.toString(objects));
+        }
     }
 }

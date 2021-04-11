@@ -14,7 +14,7 @@ public class MovieImage extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inum;
+    private Long imgNo;
 
     private String uuid;
 
@@ -23,5 +23,6 @@ public class MovieImage extends BaseEntity{
     private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mno", foreignKey = @ForeignKey(name = "FK_MOVIEIMAGE_MOVIE"))
     private Movie movie;
 }
