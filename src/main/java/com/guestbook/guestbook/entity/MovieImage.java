@@ -14,7 +14,7 @@ public class MovieImage extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imgNo;
+    private Long ino;
 
     private String uuid;
 
