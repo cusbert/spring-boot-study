@@ -10,16 +10,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString(exclude = "movie")
+@Table(name = "movie_image")
 public class MovieImage extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ino", nullable = false)
     private Long ino;
 
+    @Column(name = "uuid", nullable = false)
     private String uuid;
 
+    @Column(name = "imgName", nullable = false)
     private String imgName;
 
+    @Column(name = "path", nullable = true)
     private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)

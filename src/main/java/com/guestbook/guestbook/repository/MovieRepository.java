@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-   @Query("select m, max(mi), avg(coalesce(r.grade, 0)), count(distinct r) " +
+   @Query("select m, mi, avg(coalesce(r.grade, 0)), count(distinct r) " +
             "from Movie m " +
             "left join MovieImage mi on mi.movie = m " +
             "left join Review r on r.movie = m " +

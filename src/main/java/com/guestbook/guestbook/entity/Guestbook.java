@@ -11,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table(name = "guestbook")
 public class Guestbook extends BaseEntity{
 
     @Id
