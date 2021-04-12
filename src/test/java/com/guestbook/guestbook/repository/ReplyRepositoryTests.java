@@ -21,7 +21,7 @@ public class ReplyRepositoryTests {
     public void insertReply() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
-            long bno = (long) (Math.random() * 10 + 45);
+            long bno = (long) (Math.random() * 10 +1);
 
             Board board = Board.builder().bno(bno).build();
 
