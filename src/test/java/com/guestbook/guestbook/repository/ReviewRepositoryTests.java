@@ -6,7 +6,10 @@ import com.guestbook.guestbook.entity.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -59,5 +62,32 @@ public class ReviewRepositoryTests {
         });
     }
 
+
+    @Test
+    public void testGetMoveReview() {
+        Movie movie = Movie.builder().mno(90l).build();
+
+        List<Review> result = reviewRepository.findByMovie(movie);
+
+        result.forEach(movieReview -> {
+                    System.out.println(movieReview.toString());
+                    System.out.println(movieReview.getMember().getEmail());
+                }
+
+        );
+    }
+
+
+    @Commit
+    @Transactional
+    @Test
+    public void testDeleteMember() {
+
+        Member member = Member.builder().id("userID1").build();
+
+        reviewRepository.deleteByMember(member);
+        memberRepository.delete(member);
+
+    }
 
 }
