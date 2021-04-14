@@ -34,6 +34,7 @@ dependencies {
 //	}
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client'
+	compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.12' // 썸네일 라이브러리
 }
 
 test {
