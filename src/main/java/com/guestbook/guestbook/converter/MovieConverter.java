@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 @Component
 public class MovieConverter {
 
+    private MovieConverter() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Map<String, Object> dtoToEntity(MovieDTO dto) {
 
         Map<String, Object> entityMap = new HashMap<>();
@@ -28,17 +32,41 @@ public class MovieConverter {
         // movieImageDTO 처리
         if (imageDTOList !=null && imageDTOList.size() > 0) {
             List<MovieImage> movieImages = imageDTOList.stream().map(movieImageDTO -> {
-                MovieImage movieImage = MovieImage.builder()
+                return MovieImage.builder()
                         .path(movieImageDTO.getPath())
                         .imgName(movieImageDTO.getImgName())
                         .uuid(movieImageDTO.getUuid())
                         .movie(movie)
                         .build();
-                return movieImage;
             }).collect(Collectors.toList());
             entityMap.put("imgList", movieImages);
         }
 
         return entityMap;
     }
+
+    public static MovieDTO entityToDTO(Movie movie, List<MovieImage> movieImages, Double avg, Long reviewCount) {
+
+        MovieDTO movieDTO = MovieDTO.builder()
+                .mno(movie.getMno())
+                .title(movie.getTitle())
+                .regDate(movie.getRegDate())
+                .modDate(movie.getModDate())
+                .build();
+
+        List<MovieImageDTO> movieImageDTOs = movieImages.stream().map(movieImage -> {
+            return MovieImageDTO.builder()
+                    .imgName(movieImage.getImgName())
+                    .path(movieImage.getPath())
+                    .uuid(movieImage.getUuid())
+                    .build();
+        }).collect(Collectors.toList());
+
+        movieDTO.setImageDTOList(movieImageDTOs);
+        movieDTO.setAvg(avg);
+        movieDTO.setReviewCount(reviewCount.intValue());
+
+        return movieDTO;
+    }
+
 }
