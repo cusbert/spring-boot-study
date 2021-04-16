@@ -14,10 +14,6 @@ import java.util.stream.Collectors;
 @Component
 public class MovieConverter {
 
-    private MovieConverter() {
-        throw new IllegalStateException("Utility class");
-    }
-
     public static Map<String, Object> dtoToEntity(MovieDTO dto) {
 
         Map<String, Object> entityMap = new HashMap<>();
