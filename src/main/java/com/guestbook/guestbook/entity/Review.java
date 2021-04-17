@@ -17,6 +17,10 @@ public class Review extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reviewId", nullable = false)
     private Long reviewId;
+    @Column(name = "grade", nullable = false)
+    private int grade;
+    @Column(name = "text", nullable = true)
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "mno", foreignKey = @ForeignKey(name = "FK_REVIEW_MOVIE"))
@@ -26,8 +30,11 @@ public class Review extends BaseEntity{
     @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "FK_REVIEW_MEMBER"))
     private Member member;
 
-    private int grade;
+    public void changeGrade(int grade) {
+        this.grade = grade;
+    }
 
-    private String text;
-
+    public void changeText(String text) {
+        this.text = text;
+    }
 }

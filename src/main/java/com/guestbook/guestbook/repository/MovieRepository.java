@@ -1,5 +1,6 @@
 package com.guestbook.guestbook.repository;
 
+import com.guestbook.guestbook.dto.MovieDTO;
 import com.guestbook.guestbook.entity.Movie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,5 +26,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
            "left join Review r on r.movie = m " +
            "where m.mno = :mno " +
            "group by mi")
-   List<Object[]> getMovieWithAll(@Param("mno") Long mno);
+   MovieDTO getMovieWithAll(@Param("mno") Long mno);
 }

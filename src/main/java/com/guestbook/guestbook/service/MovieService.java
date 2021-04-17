@@ -9,4 +9,6 @@ public interface MovieService {
     Long register(MovieDTO movieDTO);
 
     PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO);
+
+    MovieDTO getMovie(Long mno);
 }
