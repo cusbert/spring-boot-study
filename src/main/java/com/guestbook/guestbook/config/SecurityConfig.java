@@ -24,8 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sample/all").permitAll() // permitAll 설정
                 .antMatchers("/sample/member").hasRole("USER"); // USER 권한만 접근 가능
 
-        http.formLogin(); // 인증 문제시 로그인 화면면
+        http.formLogin(); // 인증 문제시 로그인 화면
+        // http.csrf().disable(); // CSRF 비활성화
+        http.logout();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 테스트용 사용자 1명 생성
