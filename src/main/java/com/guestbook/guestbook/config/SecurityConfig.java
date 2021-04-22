@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout();
     }
 
+    // 자동으로 bean 등록되는 USerDetailsService 를 사용하기 위해 주석 처리
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 테스트용 사용자 1명 생성
@@ -38,4 +40,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("$2a$10$wbni5WOD2fKQ9UQirwkqRev2GQep.Ifdak9FdKL4aNrGgTe8Dbsma") // 1111 인코딩
                 .roles("USER");
     }
+    */
 }
