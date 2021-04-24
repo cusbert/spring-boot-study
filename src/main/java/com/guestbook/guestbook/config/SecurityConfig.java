@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // bean으로 apiCheckFilter 설정
     @Bean
     public ApiCheckFilter apiCheckFilter() {
-        return new ApiCheckFilter();
+        return new ApiCheckFilter("/movies/**/*"); //movies api 에 대해 필터 설정
     }
 
     // 자동으로 bean 등록되는 USerDetailsService 를 사용하기 위해 주석 처리
