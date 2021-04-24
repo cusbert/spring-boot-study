@@ -2,6 +2,7 @@ package com.guestbook.guestbook.config;
 
 import com.guestbook.guestbook.security.filter.ApiCheckFilter;
 import com.guestbook.guestbook.security.filter.ApiLoginFilter;
+import com.guestbook.guestbook.security.handler.ApiLoginFailHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public ApiLoginFilter apiLoginFilter() throws Exception {
         ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/movies"); // movies api 에 필터 적용
         apiLoginFilter.setAuthenticationManager(authenticationManager());
+
+        // 인증 실패 시 ApiLoginFailHandler 처리
+        apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 
         return apiLoginFilter;
     }

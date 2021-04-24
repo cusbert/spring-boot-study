@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,5 +41,14 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         // AuthenticationManager 를 이용하여 인증 처리
         return getAuthenticationManager().authenticate(authToken);
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+       // login 인증 성공 시 처리
+        log.info("--- ApiLoginFilter");
+        log.info("successfulAuthentication start");
+
+        log.info(authResult.getPrincipal());
     }
 }
