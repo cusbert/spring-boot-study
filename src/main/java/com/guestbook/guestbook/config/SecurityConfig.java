@@ -1,5 +1,6 @@
 package com.guestbook.guestbook.config;
 
+import com.guestbook.guestbook.security.filter.ApiCheckFilter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @Log4j2
@@ -25,8 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sample/member").hasRole("USER"); // USER 권한만 접근 가능
 
         http.formLogin(); // 인증 문제시 로그인 화면
-        // http.csrf().disable(); // CSRF 비활성화
+        http.csrf().disable(); // CSRF 동작 설정
         http.logout();
+
+        // http.oauth2Login().successHandler(successHandler());
+        http.rememberMe().tokenValiditySeconds(60*60*7).userDetailsService(userDetailsService()); // 7days
+        http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class); // 필터 동작 순서 조정
+    }
+
+    // bean으로 apiCheckFilter 설정
+    @Bean
+    public ApiCheckFilter apiCheckFilter() {
+        return new ApiCheckFilter();
     }
 
     // 자동으로 bean 등록되는 USerDetailsService 를 사용하기 위해 주석 처리
