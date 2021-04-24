@@ -1,6 +1,7 @@
 package com.guestbook.guestbook.config;
 
 import com.guestbook.guestbook.security.filter.ApiCheckFilter;
+import com.guestbook.guestbook.security.filter.ApiLoginFilter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.Filter;
 
 @Configuration
 @Log4j2
@@ -32,13 +35,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // http.oauth2Login().successHandler(successHandler());
         http.rememberMe().tokenValiditySeconds(60*60*7).userDetailsService(userDetailsService()); // 7days
+
+        // apiCheckFilter
         http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class); // 필터 동작 순서 조정
+        // ApiLoginFilter
+        http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class); // 필터 동작 순서 조정
+    }
+
+    @Bean
+    public ApiLoginFilter apiLoginFilter() throws Exception {
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/movies"); // movies api 에 필터 적용
+        apiLoginFilter.setAuthenticationManager(authenticationManager());
+
+        return apiLoginFilter;
     }
 
     // bean으로 apiCheckFilter 설정
     @Bean
     public ApiCheckFilter apiCheckFilter() {
-        return new ApiCheckFilter("/movies/**/*"); //movies api 에 대해 필터 설정
+        return new ApiCheckFilter("/movies"); //movies api 에 대해 필터 설정
     }
 
     // 자동으로 bean 등록되는 USerDetailsService 를 사용하기 위해 주석 처리
