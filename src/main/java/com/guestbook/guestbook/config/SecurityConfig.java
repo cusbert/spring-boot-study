@@ -3,6 +3,7 @@ package com.guestbook.guestbook.config;
 import com.guestbook.guestbook.security.filter.ApiCheckFilter;
 import com.guestbook.guestbook.security.filter.ApiLoginFilter;
 import com.guestbook.guestbook.security.handler.ApiLoginFailHandler;
+import com.guestbook.guestbook.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public JWTUtil jwtUtil() {
+        return new JWTUtil();
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,9 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public ApiLoginFilter apiLoginFilter() throws Exception {
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/movies"); // movies api 에 필터 적용
-        apiLoginFilter.setAuthenticationManager(authenticationManager());
+        //JWT 사용
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/movies", jwtUtil()); // movies api 에 필터 적용
 
+        apiLoginFilter.setAuthenticationManager(authenticationManager());
         // 인증 실패 시 ApiLoginFailHandler 처리
         apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 

@@ -1,5 +1,7 @@
 package com.guestbook.guestbook.security.filter;
 
+import com.guestbook.guestbook.security.dto.AuthMemberDTO;
+import com.guestbook.guestbook.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,14 +14,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Log4j2
 public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     // 로그인이 성공하면 클라이언트가 Authorization 헤더값으로 사용할 값 전송
 
-    public ApiLoginFilter(String defaultFilterProcessesUrl) {
+    private JWTUtil jwtUtil;
+
+    public ApiLoginFilter(String defaultFilterProcessesUrl, JWTUtil jwtUtil) {
         super(defaultFilterProcessesUrl);
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -34,7 +40,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, pw);
 
-        if(email == null) {
+        if (email == null) {
             // email parameter 없으면 error 발생
             throw new BadCredentialsException("email cannot be null");
         }
@@ -44,11 +50,28 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-       // login 인증 성공 시 처리
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        // login 인증 성공 시 처리
         log.info("--- ApiLoginFilter");
         log.info("successfulAuthentication start");
-
+        log.info("successfulAuthentication result" + authResult);
         log.info(authResult.getPrincipal());
+
+        String email = ((AuthMemberDTO) authResult.getPrincipal()).getName();
+
+        String token = null;
+
+        try {
+            token = jwtUtil.generateToken(email);
+
+            response.setContentType("text/plain");
+            response.getOutputStream().write(token.getBytes());
+
+            log.info(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
