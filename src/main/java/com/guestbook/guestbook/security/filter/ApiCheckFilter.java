@@ -1,5 +1,6 @@
 package com.guestbook.guestbook.security.filter;
 
+import com.guestbook.guestbook.security.util.JWTUtil;
 import org.json.simple.JSONObject;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.util.AntPathMatcher;
@@ -18,10 +19,12 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
     private AntPathMatcher antPathMatcher;
     private String pattern;
+    private JWTUtil jwtUtil;
 
-    public ApiCheckFilter(String pattern) {
+    public ApiCheckFilter(String pattern, JWTUtil jwtUtil) {
         this.antPathMatcher = new AntPathMatcher();
         this.pattern = pattern;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -62,15 +65,23 @@ public class ApiCheckFilter extends OncePerRequestFilter {
     }
 
     private boolean checkAuthHeader(HttpServletRequest request) {
+        // header 에 Authorization 을 "Bearer XXX" 포함해야 api 내려줌
+        // 인증 실패 시 403 에러
+        log.info("--- checkAuthHeader");
 
         boolean checkResult = false;
 
         String authHeader = request.getHeader("Authorization");
 
-        if (StringUtils.hasText(authHeader)) {
+        if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
             log.info("Authorization exist : " + authHeader);
-            if (authHeader.equals("12345678")) { // header 가 12345678 일 경우에만 인증
-                checkResult = true;
+
+            try {
+                String email = jwtUtil.validateAndExtract(authHeader.substring(7));
+                log.info("email : " + email);
+                checkResult = email.length() > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

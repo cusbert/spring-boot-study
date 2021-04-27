@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public ApiLoginFilter apiLoginFilter() throws Exception {
         //JWT 사용
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/movies", jwtUtil()); // movies api 에 필터 적용
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil()); // login api 에 필터 적용
 
         apiLoginFilter.setAuthenticationManager(authenticationManager());
         // 인증 실패 시 ApiLoginFailHandler 처리
@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // bean으로 apiCheckFilter 설정
     @Bean
     public ApiCheckFilter apiCheckFilter() {
-        return new ApiCheckFilter("/movies"); //movies api 에 대해 필터 설정
+        return new ApiCheckFilter("/movies", jwtUtil()); //movies api 에 대해 필터 설정
     }
 
     // 자동으로 bean 등록되는 USerDetailsService 를 사용하기 위해 주석 처리
